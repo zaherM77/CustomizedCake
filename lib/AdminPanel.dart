@@ -47,9 +47,12 @@ class _AdminPanelState extends State<AdminPanel> {
           BottomNavigationBarItem(
               icon: IconButton(
                 icon: Icon(Icons.list_alt_outlined),
-                onPressed: () {  },
+                onPressed: () { Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => getProducts()),
+                ); },
               ),
-              label: 'orders',
+              label: 'products',
           )
         ],),
     );
