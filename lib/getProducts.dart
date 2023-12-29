@@ -2,11 +2,15 @@ import 'package:customizedcake/product.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'product.dart';
+
+const String _baseURL = "unrecognized-bigami.000webhostapp.com";
+// const String _baseURL ="bestbakery7.infinityfreeapp.com";
 void updateProducts(Function(bool success) update) async{
   try{
     final url=Uri.https(_baseURL, 'getProducts.php');
     final response=await http.get(url).timeout(const Duration(seconds:5));
-    prodcuts.clear();
+    products.clear();
     if(response.statusCode==200){
       final jsonResponse=convert.jsonDecode(response.body);
       for(var row in jsonResponse){
@@ -15,7 +19,7 @@ void updateProducts(Function(bool success) update) async{
             row['name'],
             int.parse(row['price']),
             row['image_url'],
-            int.parse(row['category_id']);
+            int.parse(row['category_id']));
             products.add(p);
       }
       update(true);

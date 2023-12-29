@@ -1,3 +1,9 @@
+import 'dart:convert' as convert;
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+// main URL for REST pages
+const String _baseURL = "https://unrecognized-bigami.000webhostapp.com";
+
 class product{
   int id;
   String name;
