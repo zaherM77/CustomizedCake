@@ -4,7 +4,7 @@ import 'Cake.dart';
 import 'getProducts.dart';
 
 class AdminPanel extends StatefulWidget {
-  AdminPanel({Key ?key}) : super(key: key);
+  AdminPanel({Key? key}) : super(key: key);
 
   @override
   _AdminPanelState createState() {
@@ -16,6 +16,7 @@ class _AdminPanelState extends State<AdminPanel> {
   @override
   void initState() {
     super.initState();
+    updateProducts();
   }
 
   @override
@@ -25,7 +26,6 @@ class _AdminPanelState extends State<AdminPanel> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text("admin"),
@@ -34,28 +34,24 @@ class _AdminPanelState extends State<AdminPanel> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.home_filled),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AdminPanel()),
-                  );
-                },
-              ),
+            icon: Icon(Icons.home_filled),
             label: 'home',
           ),
           BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.list_alt_outlined),
-                onPressed: () { Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => getProducts()),
-                ); },
-              ),
-              label: 'products',
+            icon: Icon(Icons.list_alt_outlined),
+            label: 'products',
           )
-        ],),
+        ],
+        onTap: (index) {
+          // Handle navigation when a tab is pressed
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => GetProducts()),
+            );
+          }
+        },
+      ),
     );
   }
 }
