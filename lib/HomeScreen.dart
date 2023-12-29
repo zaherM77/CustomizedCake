@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cake Store'),
+
       ),
       drawer: Drawer(
         child: ListView(

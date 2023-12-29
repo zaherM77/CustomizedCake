@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'ColorPickerWidget.dart';
+import 'CremePickerWidget.dart';
+import 'FlavorPickerWidget.dart';
+import 'NbLayerPickerWidget.dart';
 
 class CakeCustomizationScreen extends StatefulWidget {
   @override
@@ -7,11 +10,6 @@ class CakeCustomizationScreen extends StatefulWidget {
 }
 
 class _CakeCustomizationScreenState extends State<CakeCustomizationScreen> {
-  Color selectedColor = Colors.brown;
-  int selectedLayers = 1;
-  String selectedFlavor = 'Vanilla';
-  String selectedCremeType = 'Buttercream';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,87 +17,13 @@ class _CakeCustomizationScreenState extends State<CakeCustomizationScreen> {
         title: Text('Customize Your Cake'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Select Cake Color:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            MaterialColorPicker(
-              onColorChange: (Color color) {
-                setState(() {
-                  selectedColor = color;
-                });
-              },
-              selectedColor: selectedColor,
-              allowShades: false,
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Select Number of Layers:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Slider(
-              value: selectedLayers.toDouble(),
-              min: 1,
-              max: 5,
-              onChanged: (value) {
-                setState(() {
-                  selectedLayers = value.toInt();
-                });
-              },
-              divisions: 4,
-              label: selectedLayers.toString(),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Select Cake Flavor:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            DropdownButton<String>(
-              value: selectedFlavor,
-              onChanged: (value) {
-                setState(() {
-                  selectedFlavor = value!;
-                });
-              },
-              items: ['Vanilla', 'Chocolate', 'Strawberry', 'Lemon']
-                  .map<DropdownMenuItem<String>>(
-                    (String value) => DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                ),
-              )
-                  .toList(),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Select Creme Type:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            DropdownButton<String>(
-              value: selectedCremeType,
-              onChanged: (value) {
-                setState(() {
-                  selectedCremeType = value!;
-                });
-              },
-              items: ['Buttercream', 'Fondant', 'Cream Cheese']
-                  .map<DropdownMenuItem<String>>(
-                    (String value) => DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                ),
-              )
-                  .toList(),
-            ),
-            SizedBox(height: 20),
+            ContainerWithNextButton(),
             ElevatedButton(
               onPressed: () {
-                // Show a confirmation dialog or proceed with the order
                 _showConfirmationDialog();
               },
               child: Text('Order My Cake'),
@@ -118,8 +42,12 @@ class _CakeCustomizationScreenState extends State<CakeCustomizationScreen> {
           title: Text('Confirm Your Order'),
           content: Column(
             children: [
-              // Display a preview of the selected cake
-              _buildCakePreview(),
+              BuildCakePreview(
+                selectedColor: ColorPickerWidgetState().selectedColor,
+                selectedFlavor: FlavorPickerWidgetState().selectedFlavor,
+                selectedLayers: NbLayerPickerWidgetState().selectedLayers,
+                selectedCremeType: CremePickerWidgetState().selectedCremeType,
+              ),
               SizedBox(height: 20),
               Text('Do you want to confirm your order?'),
             ],
@@ -133,8 +61,6 @@ class _CakeCustomizationScreenState extends State<CakeCustomizationScreen> {
             ),
             TextButton(
               onPressed: () {
-                // TODO: Implement logic to proceed with the order
-                // You can add code here to save the order or send it to a server
                 _showOrderConfirmation();
                 Navigator.pop(context); // Close the dialog
               },
@@ -147,7 +73,6 @@ class _CakeCustomizationScreenState extends State<CakeCustomizationScreen> {
   }
 
   void _showOrderConfirmation() {
-    // Show a simple confirmation message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Order confirmed!'),
@@ -155,9 +80,23 @@ class _CakeCustomizationScreenState extends State<CakeCustomizationScreen> {
       ),
     );
   }
+}
 
-  Widget _buildCakePreview() {
-    // Build a simple preview of the selected cake
+class BuildCakePreview extends StatelessWidget {
+  final Color selectedColor;
+  final String selectedFlavor;
+  final int selectedLayers;
+  final String selectedCremeType;
+
+  BuildCakePreview({
+    required this.selectedColor,
+    required this.selectedFlavor,
+    required this.selectedLayers,
+    required this.selectedCremeType,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 100,
@@ -175,3 +114,70 @@ class _CakeCustomizationScreenState extends State<CakeCustomizationScreen> {
     );
   }
 }
+
+class ContainerWithNextButton extends StatefulWidget {
+  @override
+  _ContainerWithNextButtonState createState() => _ContainerWithNextButtonState();
+}
+
+class _ContainerWithNextButtonState extends State<ContainerWithNextButton> {
+  int currentPage = 0;
+
+  List<Widget> pages = [
+    ColorPickerWidget(),
+    NbLayerPickerWidget(),
+    FlavorPickerWidget(),
+    CremePickerWidget(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          pages[currentPage],
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (currentPage > 0)
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      currentPage--;
+                    });
+                  },
+                  child: Text('Previous'),
+                ),
+              ElevatedButton(
+                onPressed: () {
+                  if (currentPage < pages.length - 1) {
+                    setState(() {
+                      currentPage++;
+                    });
+                  } else {
+                    // Handle the next button action when on the last page
+                    print('Last page reached');
+                  }
+                },
+                child: Text(currentPage < pages.length - 1 ? 'Next' : 'Finish'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+
