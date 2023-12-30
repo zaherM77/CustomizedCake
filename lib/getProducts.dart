@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
-import 'Addproduct.dart';
-
 //const String _baseURL = "http://10.0.0.15/API/getProduct.php";
 // const String _baseURL ="bestbakery7.infinityfreeapp.com";
 void updateProducts() async {
@@ -58,28 +56,11 @@ class _GetProductsState extends State<GetProducts> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Column(
-        children:[
-          ElevatedButton.icon(
-            onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddProduct()),
-              );
-            },
-            icon: Icon(Icons.add), // Icon on the left
-            label: Text('Add new product'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue, // Background color
-              foregroundColor: Colors.white, // Text color
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0), // Border radius
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10), // Padding
-            ),
-          ),
-          SizedBox(height: 20,),
-          ListView.builder(
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Product Page'),
+        ),
+        body: ListView.builder(
           itemCount: (products.length / 2).ceil(), // Calculate number of rows
           itemBuilder: (context, index) {
             int startIndex = index * 2;
@@ -93,8 +74,8 @@ class _GetProductsState extends State<GetProducts> {
             );
           },
         )
-        ]
     );
+
   }
   void updateProductsAndRebuild() {
     updateProducts();

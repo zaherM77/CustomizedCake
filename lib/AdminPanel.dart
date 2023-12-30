@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'AllCakes.dart';
+import 'Cake.dart';
 import 'getProducts.dart';
 
 class AdminPanel extends StatefulWidget {
@@ -23,47 +24,34 @@ class _AdminPanelState extends State<AdminPanel> {
     super.dispose();
   }
 
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Admin"),
+        title: Text("admin"),
       ),
-      body: _getBodyWidget(_currentIndex),
+      body: allCakes(),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
-            label: 'Home',
+            label: 'home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Orders',
-          ),
+            icon: Icon(Icons.list_alt_outlined),
+            label: 'products',
+          )
         ],
-        currentIndex: _currentIndex,
         onTap: (index) {
           // Handle navigation when a tab is pressed
-          setState(() {
-            _currentIndex = index;
-          });
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => GetProducts()),
+            );
+          }
         },
       ),
     );
   }
-
-  Widget _getBodyWidget(int index) {
-    switch (index) {
-      case 0:
-        return GetProducts(); // Your initial widget for the "Home" tab
-      case 1:
-        return allCakes(); // Replace YourOrdersWidget with the widget you want to display for the "Orders" tab
-      default:
-        return GetProducts(); // Handle other cases or return an empty container
-    }
-  }
 }
-
-
