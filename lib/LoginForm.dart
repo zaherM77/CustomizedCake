@@ -1,10 +1,10 @@
+import 'package:customizedcake/signUp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:customizedcake/AdminPanel.dart';
 import 'package:customizedcake/HomeScreen.dart';
-
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -29,7 +29,7 @@ class _LoginFormState extends State<LoginForm> {
           TextField(
             controller: _emailController,
             decoration: InputDecoration(
-              labelText: 'email',
+              labelText: 'Email',
             ),
           ),
           TextField(
@@ -40,19 +40,33 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-               authenticateUser(context, _emailController.text, _passwordController.text);
+              authenticateUser(context, _emailController.text, _passwordController.text);
             },
             child: Text('Login'),
+          ),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {
+              // Navigate to the signup screen or perform signup logic
+              // For simplicity, let's assume you have a SignupScreen widget
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignupPage()),
+              );
+            },
+            child: Text('Signup'),
           ),
         ],
       ),
     );
   }
 }
+// The rest of your authentication logic remains unchanged
+
 
 void authenticateUser(BuildContext context, String email, String password) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.8/API/login.php'), // Replace with your PHP script URL
+    Uri.parse('http://10.0.0.15/API/login.php'), // Replace with your PHP script URL
     body: {
       'email': email,
       'password': password,
