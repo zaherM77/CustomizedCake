@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              authenticateUser(context, _emailController.text, _passwordController.text);
+               authenticateUser(context, _emailController.text, _passwordController.text);
             },
             child: Text('Login'),
           ),
@@ -52,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
 
 void authenticateUser(BuildContext context, String email, String password) async {
   final response = await http.post(
-    Uri.parse('http://10.0.0.15/API/login.php'), // Replace with your PHP script URL
+    Uri.parse('http://192.168.1.8/API/login.php'), // Replace with your PHP script URL
     body: {
       'email': email,
       'password': password,
@@ -63,7 +63,7 @@ void authenticateUser(BuildContext context, String email, String password) async
     try {
     final Map<String, dynamic> data = json.decode(response.body);
     if (data.containsKey('role')) {
-      int role = data['role'];
+      int? role = int.tryParse(data['role']);
       // Navigate to AdminPanel or HomeScreen based on the role
       if (role == 1) {
         Navigator.push(
@@ -83,6 +83,7 @@ void authenticateUser(BuildContext context, String email, String password) async
     } catch (e) {
       // Print raw response for debugging
       print("Non-JSON Response: ${response.body}");
+      print(e);
     }
   } else {
     // Handle HTTP request error

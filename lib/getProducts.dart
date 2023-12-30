@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 //const String _baseURL = "http://10.0.0.15/API/getProduct.php";
 // const String _baseURL ="bestbakery7.infinityfreeapp.com";
 void updateProducts() async {
-  var url = "http://10.0.0.15/API/getProduct.php";
+  var url = "http://192.168.1.8/API/getProduct.php";
 
   try {
     var response = await http.get(Uri.parse(url));
