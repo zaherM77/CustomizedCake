@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
+import 'Addproduct.dart';
+
 //const String _baseURL = "http://10.0.0.15/API/getProduct.php";
 // const String _baseURL ="bestbakery7.infinityfreeapp.com";
 void updateProducts() async {
-  var url = "http://10.0.0.15/API/getProduct.php";
+  var url = "http://192.168.1.8/API/getProduct.php";
 
   try {
     var response = await http.get(Uri.parse(url));
@@ -56,39 +58,42 @@ class _GetProductsState extends State<GetProducts> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("All Products"),
-      ),
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) => Container(
-          color: index % 2 == 0 ? Colors.amber : Colors.cyan,
-          padding: const EdgeInsets.all(5),
-          width: width * 0.9,
-          child: Row(
-            children: [
-              SizedBox(width: width * 0.15),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('ID: ${products[index].id}',
-                        style: TextStyle(fontSize: width * 0.045)),
-                    Text('Name: ${products[index].name}',
-                        style: TextStyle(fontSize: width * 0.045)),
-                    Text('Price: ${products[index].price}',
-                        style: TextStyle(fontSize: width * 0.045)),
-                    // Add similar lines for other fields
-                  ],
-                ),
+    return Column(
+        children:[
+          ElevatedButton.icon(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddProduct()),
+              );
+            },
+            icon: Icon(Icons.add), // Icon on the left
+            label: Text('Add new product'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue, // Background color
+              foregroundColor: Colors.white, // Text color
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0), // Border radius
               ),
-            ],
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10), // Padding
+            ),
           ),
+          SizedBox(height: 20,),
+          ListView.builder(
+          itemCount: (products.length / 2).ceil(), // Calculate number of rows
+          itemBuilder: (context, index) {
+            int startIndex = index * 2;
+            int endIndex = startIndex + 1;
 
-        ),
-      ),
+            return Row(
+              children: [
+                if (startIndex < products.length) _buildProductCard(products[startIndex]),
+                if (endIndex < products.length) _buildProductCard(products[endIndex]),
+              ],
+            );
+          },
+        )
+        ]
     );
   }
   void updateProductsAndRebuild() {
@@ -96,3 +101,56 @@ class _GetProductsState extends State<GetProducts> {
     setState(() {}); // Trigger a rebuild
   }
 }
+
+Widget _buildProductCard(product product) {
+  return Expanded(
+    child: Card(
+      elevation: 5.0,
+      margin: EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8.0),
+              topRight: Radius.circular(8.0),
+            ),
+            child: Image.network(
+              product.image_url,
+              height: 150.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              product.name,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: (){
+
+                      },
+                      icon: Icon(Icons.delete)),
+                  ElevatedButton(
+                      onPressed: (){
+
+                      },
+                      child: Text("edit"))
+                ],
+              )
+          ),
+        ],
+      ),
+    ),
+  );
+}
+

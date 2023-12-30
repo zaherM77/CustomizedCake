@@ -1,3 +1,4 @@
+import 'package:customizedcake/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -25,24 +26,24 @@ class _SignupPageState extends State<SignupPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            TextFormField(
               controller: _emailController,
               decoration: InputDecoration(labelText: 'Email'),
             ),
-            TextField(
+            TextFormField(
               controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(labelText: 'Password'),
             ),
-            TextField(
+            TextFormField(
               controller: _firstNameController,
               decoration: InputDecoration(labelText: 'First Name'),
             ),
-            TextField(
+            TextFormField(
               controller: _lastNameController,
               decoration: InputDecoration(labelText: 'Last Name'),
             ),
-            TextField(
+            TextFormField(
               controller: _addressController,
               decoration: InputDecoration(labelText: 'Address'),
             ),
@@ -67,7 +68,7 @@ class _SignupPageState extends State<SignupPage> {
 
   void signUpUser(String email, String password, String firstName, String lastName, String address) async {
     final response = await http.post(
-      Uri.parse('http://10.0.0.15/API/signup.php'), // Replace with your PHP script URL
+      Uri.parse('http://192.168.1.8/API/signup.php'), // Replace with your PHP script URL
       body: {
         'email': email,
         'password': password,
@@ -83,6 +84,16 @@ class _SignupPageState extends State<SignupPage> {
         if (data.containsKey('success')) {
           // Signup successful
           print("Signup successful: ${data['message']}");
+          // Show a SnackBar
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Signup successful!'),
+            ),
+          );
+          // Navigate to another page (replace 'YourOtherPage' with the actual page you want to navigate to)
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
           // Navigate to the login page or any other page as needed
         } else if (data.containsKey('error')) {
           // Handle signup error
