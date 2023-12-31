@@ -1,11 +1,13 @@
 import 'package:customizedcake/product.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-List<product> products = [];
+import 'dart:convert' as convert;
+import 'UpdateProduct.dart';
+
+List<Product> products = [];
 
 void updateProducts() async {
-  var url = "http://192.168.1.8/API/getProduct.php";
+  var url = "http://10.0.0.15/API/getProduct.php";
 
   try {
     var response = await http.get(Uri.parse(url));
@@ -18,7 +20,7 @@ void updateProducts() async {
 
       products.clear();
       for (var row in jsonResponse) {
-        product p = product(
+        Product p = Product(
           int.parse(row['id']?.toString() ?? '0'),
           row['name']?.toString() ?? '',
           int.parse(row['price']?.toString() ?? '0'),
@@ -56,81 +58,85 @@ class _GetProductsState extends State<GetProducts> {
         title: Text('Product Page'),
       ),
       body: ListView.builder(
-        itemCount: (products.length / 2).ceil(),
+        itemCount: products.length,
         itemBuilder: (context, index) {
-          int startIndex = index * 2;
-          int endIndex = startIndex + 1;
-
-          return Row(
-            children: [
-              if (startIndex < products.length)
-                _buildProductCard(context, products[startIndex]),
-              if (endIndex < products.length)
-                _buildProductCard(context, products[endIndex]),
-            ],
-          );
+          return _buildProductCard(context, products[index]);
         },
       ),
     );
   }
 
-  Widget _buildProductCard(BuildContext context, product product) {
-    return Expanded(
-      child: Card(
-        elevation: 5.0,
-        margin: EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8.0),
-                topRight: Radius.circular(8.0),
-              ),
-              child: Image.network(
-                product.image_url,
-                height: 150.0,
-                fit: BoxFit.cover,
+  Widget _buildProductCard(BuildContext context, Product product) {
+    return Card(
+      elevation: 5.0,
+      margin: EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8.0),
+              topRight: Radius.circular(8.0),
+            ),
+            child: Image.network(
+              product.image_url,
+              height: 150.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              product.name,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                product.name,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    _deleteProduct(product.id); // Pass the product ID to delete
+                  },
+                  icon: Icon(Icons.delete),
                 ),
-              ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UpdateProductPage(product: product),
+                      ),
+                    ).then((updatedProduct) {
+                      // Handle the updated product when coming back from the update page
+                      if (updatedProduct != null) {
+                        setState(() {
+                          // Find and replace the old product with the updated one
+                          int index = products.indexWhere((p) => p.id == updatedProduct.id);
+                          if (index != -1) {
+                            products[index] = updatedProduct;
+                          }
+                        });
+                      }
+                    });
+                  },
+                  child: Text("edit"),
+                )
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      _deleteProduct(product.id); // Pass the product ID to delete
-                    },
-                    icon: Icon(Icons.delete),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle edit logic
-                    },
-                    child: Text("edit"),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   void _deleteProduct(int productId) async {
     try {
-      var url = "http://192.168.1.8/API/deleteProduct.php";
+      var url = "http://10.0.0.15/API/deleteProduct.php";
       var response = await http.post(
         Uri.parse(url),
         body: {'product_id': productId.toString()},
@@ -153,4 +159,5 @@ class _GetProductsState extends State<GetProducts> {
       // Handle other exceptions if necessary
       // Optionally, you can show an error message or handle the failure
     }
-  }}
+  }
+}

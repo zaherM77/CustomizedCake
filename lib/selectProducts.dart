@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 
 
 
-Future<List<product>> updateProducts() async {
-  var url = "http://192.168.1.8/API/getProduct.php";
+Future<List<Product>> updateProducts() async {
+  var url = "http://10.0.0.15/API/getProduct.php";
 
   try {
     var response = await http.get(Uri.parse(url));
@@ -19,9 +19,9 @@ Future<List<product>> updateProducts() async {
       final jsonResponse = convert.jsonDecode(response.body);
       print('API Response Body: $jsonResponse');
 
-      List<product> updatedProducts = [];
+      List<Product> updatedProducts = [];
       for (var row in jsonResponse) {
-        product p = product(
+        Product p = Product(
           int.parse(row['id']?.toString() ?? '0'),
           row['name']?.toString() ?? '',
           int.parse(row['price']?.toString() ?? '0'),
@@ -53,7 +53,7 @@ class Customer_display_products extends StatefulWidget {
 }
 
 class _Customer_display_productsState extends State<Customer_display_products> {
-  late Future<List<product>> futureProducts;
+  late Future<List<Product>> futureProducts;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _Customer_display_productsState extends State<Customer_display_products> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<product>>(
+    return FutureBuilder<List<Product>>(
       future: futureProducts,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -71,7 +71,7 @@ class _Customer_display_productsState extends State<Customer_display_products> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          List<product> products = snapshot.data!;
+          List<Product> products = snapshot.data!;
           return Expanded(
             child: ListView.builder(
               itemCount: products.length,
@@ -95,7 +95,7 @@ class _Customer_display_productsState extends State<Customer_display_products> {
     );
   }
 
-  Widget _buildProductCard(product product) {
+  Widget _buildProductCard(Product product) {
     return Expanded(
       child: Card(
         elevation: 5.0,

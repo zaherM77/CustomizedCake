@@ -61,7 +61,7 @@ class _AddProductState extends State<AddProduct> {
     final String productImageUrl = _productImageUrlController.text;
     final String productdescription = _productdescriptionController.text;
 
-    final String apiUrl = 'http://192.168.1.8/API/add_product.php';
+    final String apiUrl = 'http://10.0.0.15/API/add_product.php';
 
     try {
       final response = await http.post(
