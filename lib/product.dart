@@ -9,11 +9,11 @@ class product{
   String name;
   int price;
   String image_url;
-  int category_id;
+  String description;
 
-  product(this.id, this.name, this.price, this.image_url, this.category_id);
+  product(this.id, this.name, this.price, this.image_url, this.description);
   String toString(){
-    return 'Pid: $id Name: $name price: $price url: $image_url category id: $category_id';
+    return 'Pid: $id Name: $name price: $price url: $image_url category id: $description';
   }
 }
 List<product> products=[];

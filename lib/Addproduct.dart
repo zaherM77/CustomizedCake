@@ -12,14 +12,14 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _productNameController = TextEditingController();
   final TextEditingController _productPriceController = TextEditingController();
   final TextEditingController _productImageUrlController = TextEditingController();
-  final TextEditingController _productCategoryController = TextEditingController(); // Add category controller
+  final TextEditingController _productdescriptionController = TextEditingController(); // Add category controller
 
   @override
   void dispose() {
     _productNameController.dispose();
     _productPriceController.dispose();
     _productImageUrlController.dispose();
-    _productCategoryController.dispose(); // Dispose of category controller
+    _productdescriptionController.dispose(); // Dispose of category controller
     super.dispose();
   }
 
@@ -59,7 +59,7 @@ class _AddProductState extends State<AddProduct> {
     final String productName = _productNameController.text;
     final String productPrice = _productPriceController.text;
     final String productImageUrl = _productImageUrlController.text;
-    final String productCategory = _productCategoryController.text;
+    final String productdescription = _productdescriptionController.text;
 
     final String apiUrl = 'http://192.168.1.8/API/add_product.php';
 
@@ -70,7 +70,7 @@ class _AddProductState extends State<AddProduct> {
           'name': productName,
           'price': productPrice,
           'image_url': productImageUrl,
-          'category': productCategory,
+          'description': productdescription,
         },
       );
 
@@ -81,7 +81,7 @@ class _AddProductState extends State<AddProduct> {
         final String newProductName = responseData['name'];
         final String newProductPrice = responseData['price'];
         final String newProductImageUrl = responseData['image_url'];
-        final String newProductCategory = responseData['category'];
+        final String newProductdescription = responseData['description'];
 
         // Pass the new product information back to the previous screen
         Navigator.pop(context, {
@@ -89,7 +89,7 @@ class _AddProductState extends State<AddProduct> {
           'name': newProductName,
           'price': newProductPrice,
           'image_url': newProductImageUrl,
-          'category': newProductCategory,
+          'category': newProductdescription,
         });
 
         // Show a success message (optional)
@@ -131,8 +131,8 @@ class _AddProductState extends State<AddProduct> {
               decoration: InputDecoration(labelText: 'Product Image URL'),
             ),
             TextField(
-              controller: _productCategoryController,
-              decoration: InputDecoration(labelText: 'Product Category'),
+              controller: _productdescriptionController,
+              decoration: InputDecoration(labelText: 'Product Description'),
             ),
             ElevatedButton(
               onPressed: _addProduct,

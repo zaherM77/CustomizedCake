@@ -1,3 +1,4 @@
+import 'package:customizedcake/selectProducts.dart';
 import 'package:flutter/material.dart';
 
 import 'CakeCustomizationScreen.dart';
@@ -78,28 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 20.0),
-            Expanded(
-              child: SingleChildScrollView( // Use SingleChildScrollView to handle overflow
-                child: Column(
-                  children: [
-                    _buildCakeCategory(
-                      'Wedding Cakes',
-                      'https://cdn.pixabay.com/photo/2017/03/02/07/18/wedding-2110546_1280.jpg',
-                    ),
-                    SizedBox(height: 12.0),
-                    _buildCakeCategory(
-                      'Birthday Cakes',
-                      'https://cdn.pixabay.com/photo/2015/08/04/14/24/birthday-874783_1280.jpg',
-                    ),
-                    SizedBox(height: 12.0),
-                    _buildCakeCategory(
-                      'Cupcakes',
-                      'https://cdn.pixabay.com/photo/2016/01/11/07/18/cupcakes-1133146_1280.jpg',
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            Customer_display_products(),
           ],
         ),
       ),
