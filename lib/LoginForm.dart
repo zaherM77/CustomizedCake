@@ -67,11 +67,6 @@ class _LoginFormState extends State<LoginForm> {
               hintText: 'enter your email',
             ),
             keyboardType: TextInputType.emailAddress, // Set the keyboard type to email
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$'),
-              ),
-            ],
             validator: (String? value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
@@ -98,7 +93,7 @@ class _LoginFormState extends State<LoginForm> {
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blue),
               ),
-              hintText: 'enter your email',
+              hintText: 'enter your password',
             ),
             validator: (String? value) {
               if (value == null || value.isEmpty) {
@@ -113,7 +108,20 @@ class _LoginFormState extends State<LoginForm> {
                 SizedBox(width: 180,),
                 ElevatedButton(
                   onPressed: () {
-                    authenticateUser(context, _emailController.text, _passwordController.text);
+                    if (_frmkey.currentState?.validate() ?? false) {
+                      authenticateUser(
+                        context,
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+                    } else {
+                      // Show Snackbar if fields are empty
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please fill in all fields'),
+                        ),
+                      );
+                    }
                   },
                   child: Text('Login'),
                 ),
