@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'AllCakes.dart';
 import 'Cake.dart';
+import 'ViewOrders.dart';
 import 'getProducts.dart';
 
 
@@ -40,8 +41,12 @@ class _AdminPanelState extends State<AdminPanel> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list_alt_outlined),
-            label: 'products',
-          )
+            label: 'Products',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.checklist_rtl),
+            label: 'Orders',
+          ),
         ],
         onTap: (index) {
           // Handle navigation when a tab is pressed
@@ -49,6 +54,12 @@ class _AdminPanelState extends State<AdminPanel> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => GetProducts()),
+            );
+          }
+          else if(index==2){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ViewOrders()),
             );
           }
         },
