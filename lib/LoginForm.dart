@@ -67,6 +67,11 @@ class _LoginFormState extends State<LoginForm> {
               hintText: 'enter your email',
             ),
             keyboardType: TextInputType.emailAddress, // Set the keyboard type to email
+            // inputFormatters: [
+            //   FilteringTextInputFormatter.allow(
+            //     RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$'),
+            //   ),
+            // ],
             validator: (String? value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
@@ -93,7 +98,7 @@ class _LoginFormState extends State<LoginForm> {
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blue),
               ),
-              hintText: 'enter your password',
+              hintText: 'enter your email',
             ),
             validator: (String? value) {
               if (value == null || value.isEmpty) {
@@ -108,20 +113,7 @@ class _LoginFormState extends State<LoginForm> {
                 SizedBox(width: 180,),
                 ElevatedButton(
                   onPressed: () {
-                    if (_frmkey.currentState?.validate() ?? false) {
-                      authenticateUser(
-                        context,
-                        _emailController.text,
-                        _passwordController.text,
-                      );
-                    } else {
-                      // Show Snackbar if fields are empty
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Please fill in all fields'),
-                        ),
-                      );
-                    }
+                    authenticateUser(context, _emailController.text, _passwordController.text);
                   },
                   child: Text('Login'),
                 ),
@@ -162,7 +154,7 @@ class _LoginFormState extends State<LoginForm> {
 
 void authenticateUser(BuildContext context, String email, String password) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.8/API/login.php'), // Replace with your PHP script URL
+    Uri.parse('http://10.0.0.15/API/login.php'), // Replace with your PHP script URL
     body: {
       'email': email,
       'password': password,
