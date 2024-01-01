@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:customizedcake/AdminPanel.dart';
 import 'package:customizedcake/HomeScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'getProducts.dart';
 class LoginForm extends StatefulWidget {
@@ -153,7 +154,6 @@ class _LoginFormState extends State<LoginForm> {
 }
 // The rest of your authentication logic remains unchanged
 
-
 void authenticateUser(BuildContext context, String email, String password) async {
   final response = await http.post(
     Uri.parse('https://bestbakery77.000webhostapp.com/login.php'), // Replace with your PHP script URL
@@ -165,25 +165,32 @@ void authenticateUser(BuildContext context, String email, String password) async
 
   if (response.statusCode == 200) {
     try {
-    final Map<String, dynamic> data = json.decode(response.body);
-    if (data.containsKey('role')) {
-      int? role = int.tryParse(data['role']);
-      // Navigate to AdminPanel or HomeScreen based on the role
-      if (role == 1) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => GetProducts()),
-        ); // Navigate to AdminPanel
-      } else if (role == 2) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        ); // Navigate to HomeScreen
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data.containsKey('role') && data.containsKey('id')) {
+        int? role = int.tryParse(data['role']);
+        int? customerId = int.tryParse(data['id']);
+
+        // Save customer ID to shared preferences
+        if (customerId != null) {
+          await SharedPreferencesUtil.saveCustomerId(customerId);
+        }
+
+        // Navigate based on the role
+        if (role == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AdminPanel()),
+          ); // Navigate to AdminPanel
+        } else if (role == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          ); // Navigate to HomeScreen
+        }
+      } else if (data.containsKey('error')) {
+        // Handle authentication error
+        print("Authentication error: ${data['error']}");
       }
-    } else if (data.containsKey('error')) {
-      // Handle authentication error
-      print("Authentication error: ${data['error']}");
-    }
     } catch (e) {
       // Print raw response for debugging
       print("Non-JSON Response: ${response.body}");
@@ -192,5 +199,18 @@ void authenticateUser(BuildContext context, String email, String password) async
   } else {
     // Handle HTTP request error
     print("HTTP request error. Status code: ${response.statusCode}");
+  }
+}
+class SharedPreferencesUtil {
+  static const String keyCustomerId = 'customer_id';
+
+  static Future<void> saveCustomerId(int customerId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(keyCustomerId, customerId);
+  }
+
+  static Future<int?> getCustomerId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(keyCustomerId);
   }
 }
