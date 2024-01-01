@@ -8,6 +8,7 @@ class ViewOrders extends StatefulWidget {
   @override
   _ViewOrdersState createState() => _ViewOrdersState();
 }
+
 class _ViewOrdersState extends State<ViewOrders> {
   List<Order> orders = [];
 
@@ -46,6 +47,11 @@ class _ViewOrdersState extends State<ViewOrders> {
                 Text('   Cake Topper: ${orders[index].customizationDetails.cakeTopper}'),
               ],
             ),
+            trailing: Checkbox(
+              value: orders[index].isDone ?? false,
+              onChanged: (value) => _updateOrderStatus(orders[index].id, value!),
+            ),
+
           );
         },
       ),
@@ -53,7 +59,7 @@ class _ViewOrdersState extends State<ViewOrders> {
   }
 
   void _getOrders() async {
-    var url = "http://192.168.1.8/API/getOrders.php";
+    var url = "http://10.0.0.15/API/getOrders.php";
 
     try {
       var response = await http.get(Uri.parse(url));
@@ -72,4 +78,28 @@ class _ViewOrdersState extends State<ViewOrders> {
       print('Error: $e');
     }
   }
+
+  void _updateOrderStatus(int orderId, bool isDone) async {
+    var url = "http://10.0.0.15/API/updateOrderStatus.php";
+
+    try {
+      var response = await http.post(
+        Uri.parse(url),
+        body: {'order_id': orderId.toString(), 'is_done': isDone ? '1' : '0'}, // Convert boolean to '1' or '0'
+      );
+
+      if (response.statusCode == 200) {
+        print('Order status updated successfully');
+        // You might want to update the local state as well
+        setState(() {
+          orders.firstWhere((order) => order.id == orderId).isDone = isDone;
+        });
+      } else {
+        print('Failed to update order status. Status Code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
 }

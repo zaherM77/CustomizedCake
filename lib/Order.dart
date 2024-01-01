@@ -10,6 +10,7 @@ class Order {
   final String note;
   final DateTime date;
   final CustomizationDetails customizationDetails;
+  bool? isDone; // Make it nullable
 
   Order({
     required this.id,
@@ -21,6 +22,7 @@ class Order {
     required this.note,
     required this.date,
     required this.customizationDetails,
+    this.isDone, // Make it nullable
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class Order {
       note: json['note'] as String,
       date: DateTime.parse(json['date'].toString()),
       customizationDetails: CustomizationDetails.fromJson(json),
+      isDone: json['is_done'] == 1, // Assuming 1 represents true in your database
     );
   }
 }
