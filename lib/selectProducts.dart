@@ -140,7 +140,7 @@ class _Customer_display_productsState extends State<Customer_display_products> {
                     onPressed: () {
                       Navigator.push(context,
                         MaterialPageRoute(
-                            settings: RouteSettings(arguments: product),
+                            settings: RouteSettings(arguments: product ,),
                             builder: (context) => CakeCustomizationScreen()),
                       );
                     },

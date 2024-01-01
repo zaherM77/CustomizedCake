@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'AllCakes.dart';
-import 'Cake.dart';
 import 'ViewOrders.dart';
 import 'getProducts.dart';
 
@@ -32,7 +30,6 @@ class _AdminPanelState extends State<AdminPanel> {
       appBar: AppBar(
         title: Text("admin"),
       ),
-      body: allCakes(),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

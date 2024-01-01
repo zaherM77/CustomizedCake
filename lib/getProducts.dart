@@ -2,6 +2,7 @@ import 'package:customizedcake/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'Addproduct.dart';
 import 'UpdateProduct.dart';
 
 List<Product> products = [];
@@ -57,12 +58,33 @@ class _GetProductsState extends State<GetProducts> {
       appBar: AppBar(
         title: Text('Product Page'),
       ),
-      body: ListView.builder(
+      body: Column(
+        children:[
+        ElevatedButton.icon(
+        onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddProduct()),
+          );
+        },
+        icon: Icon(Icons.add), // Icon on the left
+        label: Text('Add new product'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue, // Background color
+          foregroundColor: Colors.white, // Text color
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0), // Border radius
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10), // Padding
+        ),
+      ),
+      ListView.builder(
         itemCount: products.length,
         itemBuilder: (context, index) {
           return _buildProductCard(context, products[index]);
         },
       ),
+      ])
     );
   }
 

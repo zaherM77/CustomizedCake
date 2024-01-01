@@ -1,56 +1,52 @@
-class Cake{
-  String _category;
-  String _color;
-  String _creame;
-  String _size;
-  int _nb_layers;
-  String _image;
+import 'package:flutter/material.dart';
+class Cake {
+  Color _color;
+  String _frosting;
+  String _cakeTopper;
+  int _nbLayers;
+  String _flavore;
 
-  Cake(this._category,this._color,this._creame,this._size,this._nb_layers,this._image);
+  // Default-valued constructor
+  Cake({
+    Color color = Colors.brown,
+    String frosting = 'Buttercream',
+    String cakeTopper = '',
+    int nbLayers = 1,
+    String flavore='Vanilla'
+  })  : _color = color,
+        _frosting = frosting,
+        _cakeTopper = cakeTopper,
+        _nbLayers = nbLayers,
+        _flavore = flavore;
 
-  String get category => _category;
+  String get flavore => _flavore;
 
-  set category(String value) {
-    _category = value;
+  set flavore(String value) {
+    _flavore = value;
   }
 
-  String get color => _color;
+  int get nbLayers => _nbLayers;
 
-  int get nb_layers => _nb_layers;
-
-  String get size => _size;
-
-  set size(String value) {
-    _size = value;
+  set nbLayers(int value) {
+    _nbLayers = value;
   }
 
-  String get image => _image;
+  String get frosting => _frosting;
 
-  set image(String value) {
-    _image = value;
+  set frosting(String value) {
+    _frosting = value;
   }
 
-  set nb_layers(int value) {
-    _nb_layers = value;
-  }
+  String get cakeTopper => _cakeTopper;
 
-  String get creame => _creame;
+  Color get color => _color;
 
-  set creame(String value) {
-    _creame = value;
-  }
-
-  set color(String value) {
+  set color(Color value) {
     _color = value;
   }
-}
-List <Cake> cakes =[
-  Cake("a","pink","mmm","M",2,"https://cdn.pixabay.com/photo/2017/03/02/07/18/wedding-2110546_1280.jpg"),
-  Cake("a","pink","mmm","M",2,"https://cdn.pixabay.com/photo/2017/03/02/07/18/wedding-2110546_1280.jpg"),
-  Cake("a","pink","mmm","M",2,"https://cdn.pixabay.com/photo/2017/03/02/07/18/wedding-2110546_1280.jpg"),
-  Cake("a","pink","mmm","M",2,"https://cdn.pixabay.com/photo/2017/03/02/07/18/wedding-2110546_1280.jpg"),
-  Cake("a","pink","mmm","M",2,"https://cdn.pixabay.com/photo/2017/03/02/07/18/wedding-2110546_1280.jpg"),
-  Cake("a","pink","mmm","M",2,"https://cdn.pixabay.com/photo/2017/03/02/07/18/wedding-2110546_1280.jpg"),
-  Cake("a","pink","mmm","M",2,"https://cdn.pixabay.com/photo/2017/03/02/07/18/wedding-2110546_1280.jpg")
 
-];
+  set cakeTopper(String value) {
+    _cakeTopper = value;
+  }
+}
+List <Cake> cakes =[];
