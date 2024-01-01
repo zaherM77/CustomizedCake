@@ -53,7 +53,7 @@ class _ViewOrdersState extends State<ViewOrders> {
   }
 
   void _getOrders() async {
-    var url = "http://10.0.0.15/API/getOrders.php";
+    var url = "http://192.168.1.8/API/getOrders.php";
 
     try {
       var response = await http.get(Uri.parse(url));

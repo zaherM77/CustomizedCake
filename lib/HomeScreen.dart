@@ -70,16 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Discover Our Delicious Cakes',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
+            MyImageWithButton(),
             SizedBox(height: 20.0),
-            Customer_display_products(),
+            //Customer_display_products(),
           ],
         ),
       ),
@@ -120,6 +113,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+class MyImageWithButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Container(
+            width: 500.0, // Adjust the width as needed
+            height: 400.0, // Adjust the height as needed
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("image1.png"),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(10.0), // Optional: Add border radius
+              color: Colors.purple.shade100,
+            ),
+          ),
+          ElevatedButton.icon(
+            icon:Icon(Icons.navigate_next),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Customer_display_products()),
+              );
+            },
+            label: Text('Go'),
           ),
         ],
       ),

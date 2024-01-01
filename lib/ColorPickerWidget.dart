@@ -10,6 +10,7 @@ class ColorPickerWidget extends StatefulWidget {
 
 class ColorPickerWidgetState extends State<ColorPickerWidget> {
   Color selectedColor = Colors.brown;
+  final GlobalKey<ColorPickerWidgetState> colorPickerKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {

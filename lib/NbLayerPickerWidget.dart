@@ -9,7 +9,7 @@ class NbLayerPickerWidget extends StatefulWidget {
 
 class NbLayerPickerWidgetState extends State<NbLayerPickerWidget> {
   int selectedLayers = 1;
-
+  final GlobalKey<NbLayerPickerWidgetState> nbLayerPickerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Column(

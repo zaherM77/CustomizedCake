@@ -48,10 +48,10 @@ class _SignupPageState extends State<SignupPage> {
           ),
           ],
           ),
-    constraints: BoxConstraints(maxWidth: 350.0,maxHeight: 667.0),
-        child: Form(
+            constraints: BoxConstraints(maxWidth: 350.0,maxHeight: 667.0),
+          child: Form(
           key: _frmkey,
-        child: Column(
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("SignUp", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
@@ -186,7 +186,7 @@ class _SignupPageState extends State<SignupPage> {
 
   void signUpUser(String email, String password, String firstName, String lastName, String address) async {
     final response = await http.post(
-      Uri.parse('http://10.0.0.15/API/signup.php'), // Replace with your PHP script URL
+      Uri.parse('http://192.168.1.8/API/signup.php'), // Replace with your PHP script URL
       body: {
         'email': email,
         'password': password,

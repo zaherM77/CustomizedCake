@@ -7,6 +7,7 @@ class FlavorPickerWidget extends StatefulWidget {
 }
 
 class FlavorPickerWidgetState extends State<FlavorPickerWidget> {
+  final GlobalKey<FlavorPickerWidgetState> flavorPickerKey = GlobalKey();
   String selectedFlavor = 'Vanilla';
 
   @override

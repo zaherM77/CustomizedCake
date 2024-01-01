@@ -1,3 +1,5 @@
+import 'package:customizedcake/CakeCustomizationScreen.dart';
+
 import'product.dart';
 import 'package:customizedcake/product.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 
 Future<List<Product>> updateProducts() async {
-  var url = "http://10.0.0.15/API/getProduct.php";
+  var url = "http://192.168.1.8/API/getProduct.php";
 
   try {
     var response = await http.get(Uri.parse(url));
@@ -63,7 +65,13 @@ class _Customer_display_productsState extends State<Customer_display_products> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Product>>(
+
+    return Scaffold(
+      appBar: AppBar(
+          title: Text("Pick your cake type")),
+        body:
+      FutureBuilder<List<Product>>(
+
       future: futureProducts,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -92,7 +100,7 @@ class _Customer_display_productsState extends State<Customer_display_products> {
           );
         }
       },
-    );
+    ));
   }
 
   Widget _buildProductCard(Product product) {
@@ -130,9 +138,13 @@ class _Customer_display_productsState extends State<Customer_display_products> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Handle order logic
+                      Navigator.push(context,
+                        MaterialPageRoute(
+                            settings: RouteSettings(arguments: product),
+                            builder: (context) => CakeCustomizationScreen()),
+                      );
                     },
-                    child: Text("Order"),
+                    child: Text("Customise"),
                   )
                 ],
               ),

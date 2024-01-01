@@ -7,7 +7,7 @@ import 'UpdateProduct.dart';
 List<Product> products = [];
 
 void updateProducts() async {
-  var url = "http://10.0.0.15/API/getProduct.php";
+  var url = "http://192.168.1.8/API/getProduct.php";
 
   try {
     var response = await http.get(Uri.parse(url));
@@ -136,7 +136,7 @@ class _GetProductsState extends State<GetProducts> {
 
   void _deleteProduct(int productId) async {
     try {
-      var url = "http://10.0.0.15/API/deleteProduct.php";
+      var url = "http://192.168.1.8/API/deleteProduct.php";
       var response = await http.post(
         Uri.parse(url),
         body: {'product_id': productId.toString()},
