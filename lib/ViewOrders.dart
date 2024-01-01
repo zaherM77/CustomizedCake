@@ -27,31 +27,36 @@ class _ViewOrdersState extends State<ViewOrders> {
       body: ListView.builder(
         itemCount: orders.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('Order ID: ${orders[index].id}'),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Customer: ${orders[index].customerName}'),
-                Text('Address: ${orders[index].customerAddress}'),
-                Text('Product: ${orders[index].productName}'),
-                Text('Price: \$${orders[index].productPrice}'),
-                Text('Quantity: ${orders[index].quantity}'),
-                Text('Note: ${orders[index].note}'),
-                Text('Date: ${orders[index].date.toLocal()}'),
-                Text('Customization Details:'),
-                Text('   Color: ${orders[index].customizationDetails.color}'),
-                Text('   Number of Layers: ${orders[index].customizationDetails.numberOfLayers}'),
-                Text('   Flavour: ${orders[index].customizationDetails.flavour}'),
-                Text('   Frosting: ${orders[index].customizationDetails.frosting}'),
-                Text('   Cake Topper: ${orders[index].customizationDetails.cakeTopper}'),
-              ],
+          return Card(
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: ListTile(
+              title: Text(
+                'Order ID: ${orders[index].id}',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Customer: ${orders[index].customerName}'),
+                  Text('Address: ${orders[index].customerAddress}'),
+                  Text('Product: ${orders[index].productName}'),
+                  Text('Price: \$${orders[index].productPrice}'),
+                  Text('Quantity: ${orders[index].quantity}'),
+                  Text('Note: ${orders[index].note}'),
+                  Text('Date: ${orders[index].date.toLocal()}'),
+                  Text('Customization Details:'),
+                  Text('   Color: ${orders[index].customizationDetails.color}'),
+                  Text('   Number of Layers: ${orders[index].customizationDetails.numberOfLayers}'),
+                  Text('   Flavour: ${orders[index].customizationDetails.flavour}'),
+                  Text('   Frosting: ${orders[index].customizationDetails.frosting}'),
+                  Text('   Cake Topper: ${orders[index].customizationDetails.cakeTopper}'),
+                ],
+              ),
+              trailing: Checkbox(
+                value: orders[index].isDone ?? false,
+                onChanged: (value) => _updateOrderStatus(orders[index].id, value!),
+              ),
             ),
-            trailing: Checkbox(
-              value: orders[index].isDone ?? false,
-              onChanged: (value) => _updateOrderStatus(orders[index].id, value!),
-            ),
-
           );
         },
       ),
