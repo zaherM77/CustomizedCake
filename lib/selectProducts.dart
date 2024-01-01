@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 
 Future<List<Product>> updateProducts() async {
-  var url = "http://192.168.1.8/API/getProduct.php";
+  var url = "https://bestbakery77.000webhostapp.com/getProduct.php";
 
   try {
     var response = await http.get(Uri.parse(url));

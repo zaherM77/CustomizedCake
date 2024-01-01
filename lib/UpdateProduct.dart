@@ -70,7 +70,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
 
     // Perform the update request
     try {
-      var url = "http://10.0.0.15/API/updateProduct.php";
+      var url = "https://bestbakery77.000webhostapp.com/updateProduct.php";
       var response = await http.post(
         Uri.parse(url),
         body: {

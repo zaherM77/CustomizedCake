@@ -186,7 +186,7 @@ class _SignupPageState extends State<SignupPage> {
 
   void signUpUser(String email, String password, String firstName, String lastName, String address) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.8/API/signup.php'), // Replace with your PHP script URL
+      Uri.parse('https://bestbakery77.000webhostapp.com/signup.php'), // Replace with your PHP script URL
       body: {
         'email': email,
         'password': password,
