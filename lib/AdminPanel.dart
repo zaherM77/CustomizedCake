@@ -30,12 +30,9 @@ class _AdminPanelState extends State<AdminPanel> {
       appBar: AppBar(
         title: Text("admin"),
       ),
+      body: GetProducts(),
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: 'home',
-          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list_alt_outlined),
             label: 'Products',

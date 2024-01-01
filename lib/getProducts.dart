@@ -4,10 +4,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'Addproduct.dart';
 import 'UpdateProduct.dart';
+import 'ViewOrders.dart';
+
 
 List<Product> products = [];
 
-void updateProducts() async {
+Future<void> updateProducts() async {
   var url = "https://bestbakery77.000webhostapp.com/getProduct.php";
 
   try {
@@ -43,6 +45,7 @@ void updateProducts() async {
 class GetProducts extends StatefulWidget {
   GetProducts({Key? key}) : super(key: key);
 
+
   @override
   _GetProductsState createState() => _GetProductsState();
 }
@@ -50,6 +53,12 @@ class GetProducts extends StatefulWidget {
 class _GetProductsState extends State<GetProducts> {
   // Move the TextEditingController to the class level
   final TextEditingController productIdController = TextEditingController();
+  late Future<void> productsFuture;
+  @override
+  void initState() {
+    super.initState();
+    productsFuture = updateProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,36 +66,56 @@ class _GetProductsState extends State<GetProducts> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Product Page'),
-      ),
-      body: Column(
-        children:[
-        ElevatedButton.icon(
-        onPressed: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddProduct()),
-          );
-        },
-        icon: Icon(Icons.add), // Icon on the left
-        label: Text('Add new product'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue, // Background color
-          foregroundColor: Colors.white, // Text color
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0), // Border radius
+          actions: [
+          PopupMenuButton<String>(
+            onSelected: (String result) {
+              // Handle the selection from the dropdown list
+              print('Selected: $result');
+
+              // Navigate to a new page based on the selected item
+              if (result == 'Option 1') {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct()));
+              } else if (result == 'Option 2') {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ViewOrders()));
+              }
+            },
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem<String>(
+                value: 'Option 1',
+                child: Text('Add a new product'),
+              ),
+              PopupMenuItem<String>(
+                value: 'Option 2',
+                child: Text('view orders'),
+              ),
+            ],
           ),
-          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10), // Padding
-        ),
+          ]
       ),
-      ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          return _buildProductCard(context, products[index]);
+
+      body: FutureBuilder<void>(
+        future: productsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator(); // Loading indicator while waiting for data
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            // Data is available, build the product list
+            return ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                return _buildProductCard(context, products[index]);
+              },
+            );
+          }
         },
       ),
-      ])
-    );
+      );
+
   }
+
+
 
   Widget _buildProductCard(BuildContext context, Product product) {
     return Card(

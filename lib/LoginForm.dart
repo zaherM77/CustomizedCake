@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:customizedcake/AdminPanel.dart';
 import 'package:customizedcake/HomeScreen.dart';
+
+import 'getProducts.dart';
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -170,7 +172,7 @@ void authenticateUser(BuildContext context, String email, String password) async
       if (role == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AdminPanel()),
+          MaterialPageRoute(builder: (context) => GetProducts()),
         ); // Navigate to AdminPanel
       } else if (role == 2) {
         Navigator.push(
