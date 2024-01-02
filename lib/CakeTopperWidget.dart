@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Cake.dart';
 import 'package:http/http.dart' as http;
 
+import 'HomeScreen.dart';
 import 'LoginForm.dart';
 
 class CakeTopperWidget extends StatefulWidget {
@@ -35,6 +36,7 @@ class _CakeTopperWidgetState extends State<CakeTopperWidget> {
     return Material(
       child: Column(
         children: [
+          SizedBox(height: 100,),
           Text(
             'Select Cake Topper:',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -44,8 +46,10 @@ class _CakeTopperWidgetState extends State<CakeTopperWidget> {
             decoration: InputDecoration(
               labelText: 'Cake Topper',
               hintText: 'Enter your cake topper',
+              border: OutlineInputBorder(),
             ),
           ),
+          SizedBox(height: 25,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -70,8 +74,15 @@ class _CakeTopperWidgetState extends State<CakeTopperWidget> {
                 },
                 child: Text('Order My Cake'),
               ),
+
             ],
           ),
+          ElevatedButton(
+              onPressed: (){
+                Navigator.push(context,
+                  MaterialPageRoute(
+                builder: (context) => HomeScreen()));
+              }, child: Text("HomePage"))
         ],
       ),
     );
@@ -108,6 +119,7 @@ class _CakeTopperWidgetState extends State<CakeTopperWidget> {
                 ),
               ),
               Text('Do you want to confirm your order?'),
+
             ],
           ),
           actions: [
@@ -127,7 +139,11 @@ class _CakeTopperWidgetState extends State<CakeTopperWidget> {
                   selectedCremeType,
                   selectedCakeTopper,
                 );
-                Navigator.pop(context); // Close the dialog
+                final snackBar = SnackBar(
+                  content: Text('you have booked your order'),
+                  duration: Duration(seconds: 3),);
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                Navigator.pop(context);
               },
               child: Text('Confirm'),
             ),

@@ -137,6 +137,7 @@ class MyImageWithButton extends StatelessWidget {
               color: Colors.purple.shade100,
             ),
           ),
+          SizedBox(height: 15,),
           ElevatedButton.icon(
             icon:Icon(Icons.navigate_next),
             onPressed: () {
@@ -146,6 +147,12 @@ class MyImageWithButton extends StatelessWidget {
               );
             },
             label: Text('Go'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.purple.shade800, // Background color of the button
+              foregroundColor: Colors.white, // Text color of the button
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0), // Border radius
+              ),)
           ),
         ],
       ),

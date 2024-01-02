@@ -17,10 +17,12 @@ class NbLayerPickerWidgetState extends State<NbLayerPickerWidget> {
     return Material(// Add Material widget here
       child: Column(
         children: [
+          SizedBox(height: 100,),
           Text(
             'Select Number of Layers:',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          SizedBox(height: 10,),
           Slider(
             value: cake.nbLayers.toDouble(),
             min: 1,
@@ -33,6 +35,7 @@ class NbLayerPickerWidgetState extends State<NbLayerPickerWidget> {
             divisions: 4,
             label: cake.nbLayers.toString(),
           ),
+          SizedBox(height: 25,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

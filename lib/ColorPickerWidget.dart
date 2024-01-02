@@ -20,6 +20,7 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 100,),
         Text(
           'Select Cake Color:',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

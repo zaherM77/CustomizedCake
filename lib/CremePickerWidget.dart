@@ -16,10 +16,12 @@ class CremePickerWidgetState extends State<CremePickerWidget> {
     return Material(
       child: Column(
         children: [
+          SizedBox(height: 100,),
           Text(
             'Select Creme Type:',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          SizedBox(height: 10,),
           DropdownButton<String>(
             value: cake.frosting,
             onChanged: (value) {
@@ -36,6 +38,7 @@ class CremePickerWidgetState extends State<CremePickerWidget> {
             )
                 .toList(),
           ),
+          SizedBox(height: 25,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

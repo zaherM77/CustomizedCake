@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'package:customizedcake/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 
 class UpdateProductPage extends StatefulWidget {
   final Product product;
@@ -17,17 +15,14 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController image_urlController = TextEditingController();
-
-  File? _pickedImage;
 
   @override
   void initState() {
     super.initState();
+    // Set the initial values for the text fields
     nameController.text = widget.product.name;
     priceController.text = widget.product.price.toString();
     descriptionController.text = widget.product.description;
-    image_urlController.text = widget.product.image_url;
   }
 
   @override
@@ -55,11 +50,6 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
               decoration: InputDecoration(labelText: 'Product Description'),
             ),
             SizedBox(height: 20),
-
-                TextField(
-                  controller: image_urlController,
-                  decoration: InputDecoration(labelText: 'Product image'),
-                ),
             ElevatedButton(
               onPressed: () {
                 _updateProduct(widget.product.id);
@@ -72,13 +62,11 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
     );
   }
 
-
   void _updateProduct(int productId) async {
     // Retrieve values from the controllers
     String name = nameController.text;
     int price = int.tryParse(priceController.text) ?? 0;
     String description = descriptionController.text;
-    String image_url= image_urlController.text;
 
     // Perform the update request
     try {
@@ -90,7 +78,6 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
           'name': name,
           'price': price.toString(),
           'description': description,
-          'image_url' : image_url,
         },
       );
 
@@ -102,7 +89,6 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
           widget.product.name = name;
           widget.product.price = price;
           widget.product.description = description;
-          widget.product.image_url = image_url;
         });
 
         // Return to the calling page

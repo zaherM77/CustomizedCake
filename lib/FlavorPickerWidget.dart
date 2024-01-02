@@ -18,10 +18,11 @@ class FlavorPickerWidgetState extends State<FlavorPickerWidget> {
     return Material(
       child: Column(
         children: [
+          SizedBox(height: 100,),
           Text(
             'Select Cake Flavor:',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          ),SizedBox(height: 10,),
           DropdownButton<String>(
             value: cake.flavor,
             onChanged: (value) {
@@ -38,6 +39,7 @@ class FlavorPickerWidgetState extends State<FlavorPickerWidget> {
             )
                 .toList(),
           ),
+          SizedBox(height: 25,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -179,7 +179,7 @@ void authenticateUser(BuildContext context, String email, String password) async
         if (role == 1) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AdminPanel()),
+            MaterialPageRoute(builder: (context) => GetProducts()),
           ); // Navigate to AdminPanel
         } else if (role == 2) {
           Navigator.push(
