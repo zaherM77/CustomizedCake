@@ -37,19 +37,24 @@ class _ViewOrdersState extends State<ViewOrders> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Customer: ${orders[index].customerName}'),
-                  Text('Address: ${orders[index].customerAddress}'),
-                  Text('Product: ${orders[index].productName}'),
-                  Text('Price: \$${orders[index].productPrice}'),
-                  Text('Quantity: ${orders[index].quantity}'),
-                  Text('Note: ${orders[index].note}'),
-                  Text('Date: ${orders[index].date.toLocal()}'),
+                  Text('Customer: ${orders[index].customerName ?? ''}'),
+                  Text('Address: ${orders[index].customerAddress ?? ''}'),
+                  Text('Product: ${orders[index].productName ?? ''}'),
+                  Text('Price: \$${orders[index].productPrice ?? ''}'),
+                  Text('Quantity: ${orders[index].quantity ?? ''}'),
+                  Text('Date: ${orders[index].date?.toLocal() ?? ''}'),
                   Text('Customization Details:'),
-                  Text('   Color: ${orders[index].customizationDetails.color}'),
-                  Text('   Number of Layers: ${orders[index].customizationDetails.numberOfLayers}'),
-                  Text('   Flavour: ${orders[index].customizationDetails.flavour}'),
-                  Text('   Frosting: ${orders[index].customizationDetails.frosting}'),
-                  Text('   Cake Topper: ${orders[index].customizationDetails.cakeTopper}'),
+                  if (orders[index].customizationDetails != null)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('   Color: ${orders[index].customizationDetails!.color ?? ''}'),
+                        Text('   Number of Layers: ${orders[index].customizationDetails!.numberOfLayers ?? ''}'),
+                        Text('   Flavour: ${orders[index].customizationDetails!.flavour ?? ''}'),
+                        Text('   Frosting: ${orders[index].customizationDetails!.frosting ?? ''}'),
+                        Text('   Cake Topper: ${orders[index].customizationDetails!.cakeTopper ?? ''}'),
+                      ],
+                    ),
                 ],
               ),
               trailing: Checkbox(
@@ -73,7 +78,9 @@ class _ViewOrdersState extends State<ViewOrders> {
 
         setState(() {
           orders = List<Order>.from(
-            jsonResponse.map((order) => Order.fromJson(order)),
+            jsonResponse.map(
+                  (order) => Order.fromJson(order),
+            ),
           );
         });
       } else {
@@ -83,6 +90,7 @@ class _ViewOrdersState extends State<ViewOrders> {
       print('Error: $e');
     }
   }
+
 
   void _updateOrderStatus(int orderId, bool isDone) async {
     var url = "https://bestbakery77.000webhostapp.com/updateOrderStatus.php";
@@ -106,5 +114,4 @@ class _ViewOrdersState extends State<ViewOrders> {
       print('Error: $e');
     }
   }
-
 }
