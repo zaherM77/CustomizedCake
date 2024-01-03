@@ -97,7 +97,9 @@ class _GetProductsState extends State<GetProducts> {
         future: productsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // Loading indicator while waiting for data
+            return Center(
+              child: CircularProgressIndicator(),
+            ); // Loading indicator while waiting for data
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -131,7 +133,7 @@ class _GetProductsState extends State<GetProducts> {
             ),
             child: Image.network(
               product.image_url,
-              height: 150.0,
+              height: 300.0,
               fit: BoxFit.cover,
             ),
           ),

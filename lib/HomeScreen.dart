@@ -18,53 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Cake Store'),
 
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Welcome to Cake Store',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    'Customize your dream cake!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              title: Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Customise My Cake'),
-              onTap: () {
-                Navigator.pop(context);
-                _navigateToCustomizationScreen();
-              },
-            ),
-          ],
-        ),
-      ),
+
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0), // Adjust top padding
         child: Column(
@@ -77,14 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  void _navigateToCustomizationScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CakeCustomizationScreen()),
-    );
-  }
+  }  
 
   Widget _buildCakeCategory(String categoryName, String imageUrl) {
     return Card(

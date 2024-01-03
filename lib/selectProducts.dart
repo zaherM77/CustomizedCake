@@ -75,7 +75,9 @@ class _Customer_display_productsState extends State<Customer_display_products> {
       future: futureProducts,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
@@ -124,13 +126,16 @@ class _Customer_display_productsState extends State<Customer_display_products> {
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Text(
+              child: Column(
+                children: [Text(
                 product.name,
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+                Text("Price: ${product.price}\$")]
+              )
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),

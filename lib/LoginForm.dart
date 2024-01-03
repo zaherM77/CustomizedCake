@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:customizedcake/AdminPanel.dart';
 import 'package:customizedcake/HomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,28 +52,15 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           Text("Login", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           SizedBox(height: 40,),
-          TextFormField(
+            TextFormField(
             controller: _emailController,
             decoration: InputDecoration(
               labelText: 'Email',
               prefixIcon: Icon(Icons.email),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue),
-              ),
+              border: OutlineInputBorder(),
               hintText: 'enter your email',
             ),
             keyboardType: TextInputType.emailAddress, // Set the keyboard type to email
-            // inputFormatters: [
-            //   FilteringTextInputFormatter.allow(
-            //     RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$'),
-            //   ),
-            // ],
             validator: (String? value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
